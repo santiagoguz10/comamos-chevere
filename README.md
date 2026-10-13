@@ -53,7 +53,8 @@ Para mayor escala en producción, cambia el `provider` de Prisma a `postgresql` 
 - API para crear pedidos y consultarlos
 - Panel admin: pedidos entrantes, detalle productos/toppings, aprobar/notificar y avanzar estados
 - Imágenes por producto (URL) y sistema de reseñas/calificaciones
-- Notificaciones del navegador al aprobar un pedido (pide permiso y muestra alerta)
+- Notificaciones del navegador + Web Push en segundo plano al aprobar un pedido (service worker + VAPID)
+- Claves VAPID generadas automáticamente en /data/vapid.json (cámbialas en producción)
 - Polling para que el cliente vea la confirmación
 - Seed inicial con datos demo
 ```

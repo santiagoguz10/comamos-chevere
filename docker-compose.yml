@@ -22,6 +22,8 @@ services:
       DATABASE_URL: "postgresql://comamos:comamos@db:5432/comamos?schema=public"
       SESSION_SECRET: "change-me-in-production"
       NODE_ENV: "production"
+      PRISMA_HIDE_UPDATE_MESSAGE: "1"
+      VAPID_FILE: "/data/vapid.json"
     depends_on:
       db:
         condition: service_healthy

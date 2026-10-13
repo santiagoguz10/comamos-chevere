@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
+import { sendPushToUser } from "@/lib/push";
 
 export async function GET(_req: Request, { params }: { params: { id: string } }) {
   const user = await getCurrentUser();
@@ -37,5 +38,12 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
       items: { include: { product: true, toppings: { include: { topping: true } } } },
     },
   });
+  if (status === "approved") {
+    await sendPushToUser(order.userId, {
+      title: "Comamos Chévere",
+      body: `Tu pedido #${order.id.slice(0, 8)} fue aprobado 🎉`,
+      url: `/orders/${order.id}`,
+    });
+  }
   return NextResponse.json({ order });
 }

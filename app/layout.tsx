@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Link from "next/link";
 import { CartProvider } from "@/components/CartProvider";
+import PushSubscriber from "@/components/PushSubscriber";
 
 export const metadata: Metadata = {
   title: "Comamos Chévere",
@@ -13,6 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="es">
       <body>
         <CartProvider>
+          <PushSubscriber />
           <header className="bg-black text-white sticky top-0 z-40 shadow">
             <nav className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
               <Link href="/" className="text-xl font-black text-yellow-400 tracking-tight">
