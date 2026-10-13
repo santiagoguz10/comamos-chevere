@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 type Order = any;
@@ -48,7 +49,10 @@ export default function AdminPage() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">Panel de administrador</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">Panel de administrador</h1>
+        <Link href="/admin/productos" className="btn-secondary text-sm">Gestionar productos</Link>
+      </div>
       <div className="flex gap-2 flex-wrap">
         {["all", "pending", "approved", "preparing", "ready", "delivered", "canceled"].map((s) => (
           <button key={s} className={`btn ${filter === s ? "bg-yellow-400 text-black" : "bg-white"}`} onClick={() => setFilter(s)}>{s}</button>

@@ -63,6 +63,13 @@ async function main() {
     { name: "Pizza mediana", category: "pizza", description: "Masa artesanal, salsa de tomate", priceCents: 28000, imageUrl: "https://picsum.photos/seed/pizza-m/480/320", toppingNames: ["Queso extra", "Champiñones", "Cebolla caramelizada", "Jalapeños", "Piña", "Tocineta"] },
     { name: "Pizza grande", category: "pizza", description: "Para compartir", priceCents: 42000, imageUrl: "https://picsum.photos/seed/pizza-l/480/320", toppingNames: ["Queso extra", "Champiñones", "Cebolla caramelizada", "Jalapeños", "Piña", "Tocineta", "Aguacate"] },
     { name: "Choriperro", category: "choripero", description: "Chorizo, papas, salsas", priceCents: 14000, imageUrl: "https://picsum.photos/seed/choriperro/480/320", toppingNames: ["Queso extra", "Cebolla caramelizada", "Jalapeños", "Aguacate", "Salsa BBQ"] },
+    { name: "Hamburguesa BBQ", category: "hamburger", description: "Carne, queso, aros de cebolla y salsa BBQ", priceCents: 21000, imageUrl: "https://picsum.photos/seed/burger-bbq/480/320", toppingNames: ["Tocineta", "Cebolla caramelizada", "Salsa BBQ", "Queso extra"] },
+    { name: "Hamburguesa Picante", category: "hamburger", description: "Carne, jalapeños y salsa spicy", priceCents: 20000, imageUrl: "https://picsum.photos/seed/burger-spicy/480/320", toppingNames: ["Jalapeños", "Queso extra", "Cebolla caramelizada", "Aguacate"] },
+    { name: "Pizza Pepperoni", category: "pizza", description: "Queso mozzarella y pepperoni", priceCents: 32000, imageUrl: "https://picsum.photos/seed/pizza-pep/480/320", toppingNames: ["Queso extra", "Champiñones", "Jalapeños"] },
+    { name: "Pizza Hawaiana", category: "pizza", description: "Jamón, piña y queso", priceCents: 30000, imageUrl: "https://picsum.photos/seed/pizza-haw/480/320", toppingNames: ["Piña", "Queso extra", "Tocineta"] },
+    { name: "Pizza 4 Quesos", category: "pizza", description: "Mozzarella, azul, parmesano y cheddar", priceCents: 36000, imageUrl: "https://picsum.photos/seed/pizza-4q/480/320", toppingNames: ["Queso extra", "Champiñones", "Aguacate"] },
+    { name: "Choriperro Especial", category: "choripero", description: "Doble chorizo, tocineta y aguacate", priceCents: 18000, imageUrl: "https://picsum.photos/seed/choriperro-esp/480/320", toppingNames: ["Aguacate", "Tocineta", "Queso extra", "Cebolla caramelizada"] },
+    { name: "Choriperro Mexicano", category: "choripero", description: "Guacamole, jalapeños y nachos", priceCents: 19000, imageUrl: "https://picsum.photos/seed/choriperro-mex/480/320", toppingNames: ["Jalapeños", "Aguacate", "Queso extra", "Salsa BBQ"] },
   ];
 
   const createdProducts: any[] = [];
