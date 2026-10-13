@@ -17,7 +17,7 @@ export default function CartPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("/api/settings").then(r=>r.json()).then(d=>{ setOpen(d.settings?.isOpen ?? true); setStoreMsg(d.settings?.message || ""); }).catch(()=>{});
+    fetch("/api/settings").then(r=>r.json()).then(d=>{ setOpen(d.settings?.effectiveOpen ?? d.settings?.isOpen ?? true); setStoreMsg(d.settings?.message || ""); }).catch(()=>{});
   }, []);
 
   async function submit() {

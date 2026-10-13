@@ -5,7 +5,10 @@ import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
 
 export async function GET() {
+  const user = await getCurrentUser();
+  const where = user?.role === "admin" ? {} : { enabled: true };
   const products = await prisma.product.findMany({
+    where,
     include: { toppings: { include: { topping: true } }, variants: true },
     orderBy: { createdAt: "desc" },
   });

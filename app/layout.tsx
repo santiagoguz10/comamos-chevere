@@ -12,6 +12,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es">
+      <head>
+        <link rel="icon" href="/favicon.png" />
+        <link rel="manifest" href="/manifest.json" />
+      </head>
       <body>
         <CartProvider>
           <PushSubscriber />

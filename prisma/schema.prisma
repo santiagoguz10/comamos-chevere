@@ -49,6 +49,7 @@ model Product {
   category    String
   description String?
   priceCents  Int
+  enabled     Boolean            @default(true)
   imageUrl    String?
   createdAt   DateTime         @default(now())
   toppings    ProductTopping[]
@@ -145,8 +146,11 @@ model ProductVariant {
 }
 
 model StoreSettings {
-  id        String   @id @default("default")
-  isOpen    Boolean  @default(true)
-  message   String?
-  updatedAt DateTime @updatedAt
+  id          String   @id @default("default")
+  isOpen      Boolean  @default(true)
+  message     String?
+  autoSchedule Boolean @default(false)
+  openTime    String?
+  closeTime   String?
+  updatedAt   DateTime @updatedAt
 }

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 
 type Topping = { id: string; name: string; priceCents: number };
-type Product = { id: string; name: string; category: string; description?: string; priceCents: number; imageUrl?: string; toppings: { topping: Topping }[] };
+type Product = { id: string; name: string; category: string; description?: string; priceCents: number; imageUrl?: string; enabled: boolean; toppings: { topping: Topping }[] };
 
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -20,6 +20,15 @@ export default function AdminProductsPage() {
   });
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState("");
+
+  async function toggleProduct(id: string, enabled: boolean) {
+    await fetch(`/api/products/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ enabled }),
+    });
+    setProducts((prev) => prev.map((p) => (p.id === id ? { ...p, enabled } : p)));
+  }
 
   async function load() {
     const [pRes, tRes, mRes] = await Promise.all([
@@ -113,13 +122,19 @@ export default function AdminProductsPage() {
       <div className="space-y-3">
         <h2 className="font-bold text-lg">Productos actuales ({products.length})</h2>
         {products.map((p) => (
-          <div key={p.id} className="card p-3 flex gap-3 items-center">
+          <div key={p.id} className={`card p-3 flex gap-3 items-center ${p.enabled ? "" : "opacity-60"}`}>
             {p.imageUrl && <img src={p.imageUrl} alt={p.name} className="w-20 h-16 object-cover rounded-lg" />}
             <div className="flex-1">
-              <p className="font-bold">{p.name} <span className="text-xs text-neutral-500">({p.category})</span></p>
+              <p className="font-bold">{p.name} <span className="text-xs text-neutral-500">({p.category})</span> {!p.enabled && <span className="text-red-600 text-xs">(Deshabilitado)</span>}</p>
               <p className="text-sm text-neutral-500">{p.description}</p>
               <p className="text-sm font-semibold">${(p.priceCents / 100).toFixed(2)} · {p.toppings.map((t) => t.topping.name).join(", ") || "Sin toppings"}</p>
             </div>
+            <button
+              className={p.enabled ? "btn-secondary text-sm" : "btn-primary text-sm"}
+              onClick={() => toggleProduct(p.id, !p.enabled)}
+            >
+              {p.enabled ? "Deshabilitar" : "Habilitar"}
+            </button>
           </div>
         ))}
       </div>

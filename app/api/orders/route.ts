@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
+import { effectiveStore } from "@/lib/store";
 
 export async function GET() {
   const user = await getCurrentUser();
@@ -27,7 +28,7 @@ export async function POST(req: Request) {
     const deliveryType = body.deliveryType === "pickup" ? "pickup" : "delivery";
     const notes = body.notes ? String(body.notes) : null;
     const settings = await prisma.storeSettings.findUnique({ where: { id: "default" } });
-    if (settings && !settings.isOpen) {
+    if (settings && !effectiveStore(settings as any)) {
       return NextResponse.json({ error: settings.message || "La tienda está cerrada en este momento" }, { status: 400 });
     }
     const items = Array.isArray(body.items) ? body.items : [];
