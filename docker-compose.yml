@@ -1,0 +1,14 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: "file:/data/comamos.db"
+      SESSION_SECRET: "change-me-in-production"
+      NODE_ENV: "production"
+    volumes:
+      - comamos-data:/data
+
+volumes:
+  comamos-data:
