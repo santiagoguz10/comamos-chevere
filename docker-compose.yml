@@ -24,6 +24,9 @@ services:
       NODE_ENV: "production"
       PRISMA_HIDE_UPDATE_MESSAGE: "1"
       VAPID_FILE: "/data/vapid.json"
+      WHATSAPP_TOKEN: ""
+      WHATSAPP_PHONE_NUMBER_ID: ""
+      WHATSAPP_API_VERSION: "v18.0"
     depends_on:
       db:
         condition: service_healthy

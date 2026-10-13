@@ -9,6 +9,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -20,7 +21,7 @@ export default function LoginPage() {
     const res = await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password, name }),
+      body: JSON.stringify({ email, password, name, phone }),
     });
     const data = await res.json();
     setLoading(false);
@@ -34,7 +35,10 @@ export default function LoginPage() {
       <h1 className="text-2xl font-bold">{mode === "login" ? "Ingresar" : "Crear cuenta"}</h1>
       <form onSubmit={submit} className="space-y-3">
         {mode === "register" && (
-          <input className="input" placeholder="Nombre" value={name} onChange={(e) => setName(e.target.value)} />
+          <>
+            <input className="input" placeholder="Nombre" value={name} onChange={(e) => setName(e.target.value)} />
+            <input className="input" placeholder="Teléfono (WhatsApp)" value={phone} onChange={(e) => setPhone(e.target.value)} />
+          </>
         )}
         <input className="input" type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
         <input className="input" type="password" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} required />

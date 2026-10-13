@@ -26,6 +26,10 @@ export async function POST(req: Request) {
     const body = await req.json();
     const deliveryType = body.deliveryType === "pickup" ? "pickup" : "delivery";
     const notes = body.notes ? String(body.notes) : null;
+    const settings = await prisma.storeSettings.findUnique({ where: { id: "default" } });
+    if (settings && !settings.isOpen) {
+      return NextResponse.json({ error: settings.message || "La tienda está cerrada en este momento" }, { status: 400 });
+    }
     const items = Array.isArray(body.items) ? body.items : [];
     if (!items.length) return NextResponse.json({ error: "Carrito vacío" }, { status: 400 });
 

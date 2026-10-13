@@ -10,6 +10,7 @@ datasource db {
 model User {
   id           String    @id @default(cuid())
   email        String    @unique
+  phone        String?
   name         String?
   passwordHash String
   role         String    @default("customer") // customer | admin
@@ -53,12 +54,14 @@ model Product {
   toppings    ProductTopping[]
   orderItems  OrderItem[]
   reviews     Review[]
+  variants    ProductVariant[]
 }
 
 model Topping {
   id         String             @id @default(cuid())
   name       String             @unique
   priceCents Int
+  enabled    Boolean            @default(true)
   products   ProductTopping[]
   orderItems OrderItemTopping[]
 }
@@ -129,4 +132,21 @@ model PushSubscription {
   p256dh    String
   auth      String
   createdAt DateTime @default(now())
+}
+
+model ProductVariant {
+  id         String  @id @default(cuid())
+  productId  String
+  product    Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  name       String
+  priceCents Int
+
+  @@unique([productId, name])
+}
+
+model StoreSettings {
+  id        String   @id @default("default")
+  isOpen    Boolean  @default(true)
+  message   String?
+  updatedAt DateTime @updatedAt
 }

@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
 import { sendPushToUser } from "@/lib/push";
+import { sendWhatsAppMessage } from "@/lib/whatsapp";
 
 export async function GET(_req: Request, { params }: { params: { id: string } }) {
   const user = await getCurrentUser();
@@ -10,7 +11,7 @@ export async function GET(_req: Request, { params }: { params: { id: string } })
   const order = await prisma.order.findUnique({
     where: { id: params.id },
     include: {
-      user: { select: { id: true, email: true, name: true } },
+      user: { select: { id: true, email: true, name: true, phone: true } },
       address: true,
       items: { include: { product: true, toppings: { include: { topping: true } } } },
     },
@@ -33,7 +34,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     where: { id: params.id },
     data: { status },
     include: {
-      user: { select: { id: true, email: true, name: true } },
+      user: { select: { id: true, email: true, name: true, phone: true } },
       address: true,
       items: { include: { product: true, toppings: { include: { topping: true } } } },
     },
@@ -44,6 +45,12 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
       body: `Tu pedido #${order.id.slice(0, 8)} fue aprobado 🎉`,
       url: `/orders/${order.id}`,
     });
+    if (order.user?.phone) {
+      await sendWhatsAppMessage(
+        order.user.phone,
+        `¡Tu pedido #${order.id.slice(0, 8)} en Comamos Chévere fue aprobado! 🎉 Lo estamos preparando.`
+      );
+    }
   }
   return NextResponse.json({ order });
 }

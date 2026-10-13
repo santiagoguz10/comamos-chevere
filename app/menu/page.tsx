@@ -3,9 +3,10 @@
 import { useEffect, useState } from "react";
 import { useCart, CartItem } from "@/components/CartProvider";
 
-type Topping = { id: string; name: string; priceCents: number };
+type Topping = { id: string; name: string; priceCents: number; enabled?: boolean };
 type ProductTopping = { topping: Topping };
-type Product = { id: string; name: string; category: string; description?: string; priceCents: number; imageUrl?: string; toppings: ProductTopping[] };
+type Variant = { id: string; name: string; priceCents: number };
+type Product = { id: string; name: string; category: string; description?: string; priceCents: number; imageUrl?: string; toppings: ProductTopping[]; variants: Variant[] };
 type Review = { id: string; productId: string; rating: number; comment?: string | null; createdAt: string; user: { name?: string | null; email: string } };
 
 export default function MenuPage() {
@@ -15,6 +16,7 @@ export default function MenuPage() {
   const [me, setMe] = useState<any>(null);
   const [qty, setQty] = useState<Record<string, number>>({});
   const [sel, setSel] = useState<Record<string, string[]>>({});
+  const [variantSel, setVariantSel] = useState<Record<string, string>>({});
   const [ratingSel, setRatingSel] = useState<Record<string, number>>({});
   const [commentSel, setCommentSel] = useState<Record<string, string>>({});
   const [sending, setSending] = useState<Record<string, boolean>>({});
@@ -25,6 +27,14 @@ export default function MenuPage() {
     fetch("/api/reviews").then((r) => r.json()).then((d) => setReviews(d.reviews || []));
     fetch("/api/me").then((r) => r.json()).then((d) => setMe(d.user));
   }, []);
+
+  useEffect(() => {
+    const defaults: Record<string, string> = {};
+    products.forEach((p) => {
+      if (p.variants && p.variants.length) defaults[p.id] = p.variants[0].id;
+    });
+    setVariantSel(defaults);
+  }, [products]);
 
   function toggle(productId: string, toppingId: string) {
     setSel((prev) => {
@@ -37,6 +47,9 @@ export default function MenuPage() {
   }
 
   function addToCart(p: Product) {
+    const variant = p.variants && p.variants.length ? (p.variants.find((v) => v.id === variantSel[p.id]) || p.variants[0]) : null;
+    const unitPrice = variant ? variant.priceCents : p.priceCents;
+    const displayName = variant ? `${p.name} (${variant.name})` : p.name;
     const toppingIds = sel[p.id] || [];
     const toppingNames = toppingIds
       .map((id) => p.toppings.find((t) => t.topping.id === id)?.topping.name)
@@ -47,8 +60,8 @@ export default function MenuPage() {
     }, 0);
     const item: CartItem = {
       productId: p.id,
-      name: p.name,
-      priceCents: p.priceCents,
+      name: displayName,
+      priceCents: unitPrice,
       toppingPriceCents,
       quantity: qty[p.id] || 1,
       toppingIds,
@@ -109,7 +122,20 @@ export default function MenuPage() {
                         <h3 className="font-bold text-lg">{p.name}</h3>
                         <p className="text-sm text-neutral-500">{p.description}</p>
                       </div>
-                      <span className="font-bold bg-black text-yellow-400 px-2 py-1 rounded-lg">${(p.priceCents / 100).toFixed(2)}</span>
+                      {p.variants && p.variants.length > 0 && (
+                        <select
+                          className="input w-32 text-sm"
+                          value={variantSel[p.id] || p.variants[0].id}
+                          onChange={(e) => setVariantSel({ ...variantSel, [p.id]: e.target.value })}
+                        >
+                          {p.variants.map((v) => (
+                            <option key={v.id} value={v.id}>{v.name} - ${(v.priceCents / 100).toFixed(2)}</option>
+                          ))}
+                        </select>
+                      )}
+                      <span className="font-bold bg-black text-yellow-400 px-2 py-1 rounded-lg">
+                        ${(((p.variants && p.variants.length ? (p.variants.find((v) => v.id === variantSel[p.id]) || p.variants[0]).priceCents : p.priceCents) / 100).toFixed(2))}
+                      </span>
                     </div>
 
                     {avg && (
@@ -119,11 +145,11 @@ export default function MenuPage() {
                       </div>
                     )}
 
-                    {p.toppings.length > 0 && (
+                    {p.toppings.filter((pt) => pt.topping.enabled !== false).length > 0 && (
                       <div>
                         <p className="text-xs text-neutral-500 mb-1 font-semibold">Toppings</p>
                         <div className="flex flex-wrap gap-2">
-                          {p.toppings.map((pt) => (
+                          {p.toppings.filter((pt) => pt.topping.enabled !== false).map((pt) => (
                             <label key={pt.topping.id} className="flex items-center gap-1 text-sm bg-neutral-100 px-2 py-1 rounded-lg cursor-pointer hover:bg-yellow-100">
                               <input
                                 type="checkbox"

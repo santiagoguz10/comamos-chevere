@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/components/CartProvider";
 
@@ -12,7 +12,13 @@ export default function CartPage() {
   const [city, setCity] = useState("");
   const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(true);
+  const [storeMsg, setStoreMsg] = useState("");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    fetch("/api/settings").then(r=>r.json()).then(d=>{ setOpen(d.settings?.isOpen ?? true); setStoreMsg(d.settings?.message || ""); }).catch(()=>{});
+  }, []);
 
   async function submit() {
     setLoading(true);
@@ -75,7 +81,8 @@ export default function CartPage() {
         )}
         <textarea className="input" placeholder="Notas (opcional)" value={notes} onChange={(e) => setNotes(e.target.value)} />
         {error && <p className="text-red-600 text-sm">{error}</p>}
-        <button className="btn-primary w-full" onClick={submit} disabled={loading}>
+        {!open && <p className="text-red-600 text-sm">{storeMsg || "La tienda está cerrada"}</p>}
+        <button className="btn-primary w-full" onClick={submit} disabled={loading || !open}>
           {loading ? "Enviando..." : "Enviar pedido"}
         </button>
       </div>

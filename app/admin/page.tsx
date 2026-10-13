@@ -51,7 +51,10 @@ export default function AdminPage() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Panel de administrador</h1>
-        <Link href="/admin/productos" className="btn-secondary text-sm">Gestionar productos</Link>
+        <div className="flex gap-2">
+          <Link href="/admin/productos" className="btn-secondary text-sm">Gestionar productos</Link>
+          <Link href="/admin/configuracion" className="btn-dark text-sm">Configuración</Link>
+        </div>
       </div>
       <div className="flex gap-2 flex-wrap">
         {["all", "pending", "approved", "preparing", "ready", "delivered", "canceled"].map((s) => (

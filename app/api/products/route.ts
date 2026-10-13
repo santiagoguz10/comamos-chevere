@@ -6,7 +6,7 @@ import { getCurrentUser } from "@/lib/auth";
 
 export async function GET() {
   const products = await prisma.product.findMany({
-    include: { toppings: { include: { topping: true } } },
+    include: { toppings: { include: { topping: true } }, variants: true },
     orderBy: { createdAt: "desc" },
   });
   return NextResponse.json({ products });
@@ -37,7 +37,7 @@ export async function POST(req: Request) {
 
     const full = await prisma.product.findUnique({
       where: { id: product.id },
-      include: { toppings: { include: { topping: true } } },
+      include: { toppings: { include: { topping: true } }, variants: true },
     });
     return NextResponse.json({ product: full });
   } catch (e: any) {
