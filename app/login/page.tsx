@@ -43,7 +43,7 @@ export default function LoginPage() {
           {loading ? "Procesando..." : mode === "login" ? "Ingresar" : "Registrarse"}
         </button>
       </form>
-      <button className="text-sm text-brand-600" onClick={() => setMode(mode === "login" ? "register" : "login")}>
+      <button className="text-sm text-red-500 font-semibold" onClick={() => setMode(mode === "login" ? "register" : "login")}>
         {mode === "login" ? "No tengo cuenta, registrarme" : "Ya tengo cuenta, ingresar"}
       </button>
       <p className="text-xs text-stone-500">Demo admin: admin@comamoschevere.local / admin123</p>

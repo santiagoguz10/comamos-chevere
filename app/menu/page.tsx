@@ -55,7 +55,9 @@ export default function MenuPage() {
       <h1 className="text-2xl font-bold">Menú</h1>
       {categories.map((cat) => (
         <section key={cat}>
-          <h2 className="text-xl font-semibold text-brand-600 mb-3 capitalize">{cat}</h2>
+          <h2 className="text-xl font-bold text-red-500 mb-3 capitalize flex items-center gap-2">
+            <span className="w-2 h-6 bg-yellow-400 rounded-full inline-block"></span>{cat}
+          </h2>
           <div className="grid md:grid-cols-2 gap-4">
             {products.filter((p) => p.category === cat).map((p) => (
               <div key={p.id} className="card p-4 space-y-3">
@@ -64,7 +66,7 @@ export default function MenuPage() {
                     <h3 className="font-semibold">{p.name}</h3>
                     <p className="text-sm text-stone-500">{p.description}</p>
                   </div>
-                  <span className="font-bold">${(p.priceCents / 100).toFixed(2)}</span>
+                  <span className="font-bold bg-black text-yellow-400 px-2 py-1 rounded-lg">${(p.priceCents / 100).toFixed(2)}</span>
                 </div>
                 {p.toppings.length > 0 && (
                   <div>

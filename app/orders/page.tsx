@@ -7,11 +7,11 @@ type Order = { id: string; status: string; totalCents: number; createdAt: string
 
 const color: Record<string, string> = {
   pending: "bg-yellow-100 text-yellow-800",
-  approved: "bg-blue-100 text-blue-800",
-  preparing: "bg-indigo-100 text-indigo-800",
-  ready: "bg-green-100 text-green-800",
-  delivered: "bg-stone-200 text-stone-700",
-  canceled: "bg-red-100 text-red-800",
+  approved: "bg-red-100 text-red-700",
+  preparing: "bg-neutral-200 text-black",
+  ready: "bg-yellow-400 text-black",
+  delivered: "bg-black text-white",
+  canceled: "bg-red-200 text-red-900",
 };
 
 export default function OrdersPage() {

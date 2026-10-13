@@ -6,11 +6,11 @@ type Order = any;
 
 const color: Record<string, string> = {
   pending: "bg-yellow-100 text-yellow-800",
-  approved: "bg-blue-100 text-blue-800",
-  preparing: "bg-indigo-100 text-indigo-800",
-  ready: "bg-green-100 text-green-800",
-  delivered: "bg-stone-200 text-stone-700",
-  canceled: "bg-red-100 text-red-800",
+  approved: "bg-red-100 text-red-700",
+  preparing: "bg-neutral-200 text-black",
+  ready: "bg-yellow-400 text-black",
+  delivered: "bg-black text-white",
+  canceled: "bg-red-200 text-red-900",
 };
 
 export default function AdminPage() {
@@ -41,7 +41,7 @@ export default function AdminPage() {
   }
 
   if (me && me.role !== "admin") {
-    return <p className="text-red-600">Acceso solo para administradores. <a href="/login" className="text-brand-600">Ingresar</a></p>;
+    return <p className="text-red-600">Acceso solo para administradores. <a href="/login" className="text-red-500 font-semibold">Ingresar</a></p>;
   }
 
   const shown = filter === "all" ? orders : orders.filter((o) => o.status === filter);
@@ -51,7 +51,7 @@ export default function AdminPage() {
       <h1 className="text-2xl font-bold">Panel de administrador</h1>
       <div className="flex gap-2 flex-wrap">
         {["all", "pending", "approved", "preparing", "ready", "delivered", "canceled"].map((s) => (
-          <button key={s} className={`btn ${filter === s ? "bg-brand-500 text-white" : "bg-stone-200"}`} onClick={() => setFilter(s)}>{s}</button>
+          <button key={s} className={`btn ${filter === s ? "bg-yellow-400 text-black" : "bg-white"}`} onClick={() => setFilter(s)}>{s}</button>
         ))}
       </div>
       {shown.length === 0 && <p>Sin pedidos.</p>}

@@ -13,18 +13,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="es">
       <body>
         <CartProvider>
-          <header className="bg-white border-b border-stone-200 sticky top-0 z-40">
-            <nav className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-              <Link href="/" className="text-xl font-bold text-brand-600">Comamos Chévere</Link>
+          <header className="bg-black text-white sticky top-0 z-40 shadow">
+            <nav className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+              <Link href="/" className="text-xl font-black text-yellow-400 tracking-tight">
+                🍔 Comamos Chévere
+              </Link>
               <div className="flex gap-4 text-sm items-center">
-                <Link href="/menu">Menú</Link>
-                <Link href="/cart">Carrito</Link>
-                <Link href="/orders">Mis pedidos</Link>
-                <Link href="/admin" className="text-brand-600">Admin</Link>
+                <Link href="/menu" className="hover:text-yellow-400 transition">Menú</Link>
+                <Link href="/cart" className="hover:text-yellow-400 transition">Carrito</Link>
+                <Link href="/orders" className="hover:text-yellow-400 transition">Mis pedidos</Link>
+                <Link href="/admin" className="bg-red-500 hover:bg-red-600 px-3 py-1 rounded-lg text-white transition">Admin</Link>
               </div>
             </nav>
           </header>
-          <main className="max-w-5xl mx-auto px-4 py-6">{children}</main>
+          <main className="max-w-6xl mx-auto px-4 py-6">{children}</main>
+          <footer className="bg-black text-neutral-400 text-center text-xs py-6 mt-10">
+            Comamos Chévere © 2026 · Hecho con ❤️
+          </footer>
         </CartProvider>
       </body>
     </html>

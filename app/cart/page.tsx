@@ -36,7 +36,7 @@ export default function CartPage() {
   }
 
   if (items.length === 0) {
-    return <div className="card p-6 text-center">Tu carrito está vacío. <a href="/menu" className="text-brand-600">Ir al menú</a></div>;
+    return <div className="card p-6 text-center">Tu carrito está vacío 🛒 <a href="/menu" className="text-red-500 font-semibold">Ir al menú</a></div>;
   }
 
   return (

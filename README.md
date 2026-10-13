@@ -4,7 +4,7 @@ App web (responsive) para restaurante "Comamos Chévere" con dos módulos:
 - **Cliente**: registro/login, menú con toppings, carrito, dirección de entrega, tipo de entrega, envío de pedido, seguimiento/confirmación.
 - **Administrador**: visualización de pedidos entrantes con productos y toppings, aprobación/notificación al cliente y control de estados.
 
-Stack: Next.js 14 + Prisma + SQLite, desplegado con Docker.
+Stack: Next.js 14 + Prisma + PostgreSQL, desplegado con Docker. Colores: negro, amarillo y rojo.
 
 ## Requisitos
 - Docker Desktop (macOS): https://www.docker.com/products/docker-desktop/

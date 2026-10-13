@@ -7,11 +7,11 @@ type Order = any;
 
 const color: Record<string, string> = {
   pending: "bg-yellow-100 text-yellow-800",
-  approved: "bg-blue-100 text-blue-800",
-  preparing: "bg-indigo-100 text-indigo-800",
-  ready: "bg-green-100 text-green-800",
-  delivered: "bg-stone-200 text-stone-700",
-  canceled: "bg-red-100 text-red-800",
+  approved: "bg-red-100 text-red-700",
+  preparing: "bg-neutral-200 text-black",
+  ready: "bg-yellow-400 text-black",
+  delivered: "bg-black text-white",
+  canceled: "bg-red-200 text-red-900",
 };
 
 export default function OrderDetailPage({ params }: { params: { id: string } }) {
@@ -40,8 +40,8 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
   return (
     <div className="space-y-4">
       {notified && order.status === "approved" && (
-        <div className="card p-4 bg-blue-50 border-blue-200">
-          <p className="font-semibold text-blue-800">¡Tu pedido fue aprobado por la tienda! 🎉</p>
+        <div className="card p-4 bg-yellow-50 border-yellow-300">
+          <p className="font-semibold text-red-600">¡Tu pedido fue aprobado por la tienda! 🎉</p>
         </div>
       )}
       <div className="card p-4">
@@ -71,7 +71,7 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
         ))}
         <p className="font-bold mt-3">Total: ${(order.totalCents / 100).toFixed(2)}</p>
       </div>
-      <Link href="/orders" className="text-brand-600">← Volver</Link>
+      <Link href="/orders" className="text-red-500 font-semibold">← Volver</Link>
     </div>
   );
 }
