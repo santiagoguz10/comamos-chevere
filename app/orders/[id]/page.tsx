@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 type Order = any;
@@ -17,19 +17,30 @@ const color: Record<string, string> = {
 export default function OrderDetailPage({ params }: { params: { id: string } }) {
   const [order, setOrder] = useState<Order | null>(null);
   const [notified, setNotified] = useState(false);
+  const lastStatus = useRef<string | null>(null);
 
   async function load() {
     const res = await fetch(`/api/orders/${params.id}`);
     const data = await res.json();
     if (res.ok) {
       setOrder(data.order);
-      if (data.order.status === "approved" && !notified) {
+      if (data.order.status === "approved" && lastStatus.current !== "approved") {
         setNotified(true);
+        if (typeof window !== "undefined" && "Notification" in window && Notification.permission === "granted") {
+          new Notification("Comamos Chévere", {
+            body: `Tu pedido #${data.order.id.slice(0, 8)} fue aprobado 🎉`,
+            icon: "/favicon.ico",
+          });
+        }
       }
+      lastStatus.current = data.order.status;
     }
   }
 
   useEffect(() => {
+    if (typeof window !== "undefined" && "Notification" in window && Notification.permission === "default") {
+      Notification.requestPermission().catch(() => {});
+    }
     load();
     const t = setInterval(load, 5000);
     return () => clearInterval(t);

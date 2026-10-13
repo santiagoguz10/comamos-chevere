@@ -18,6 +18,7 @@ model User {
   orders       Order[]
   addresses    Address[]
   sessions     Session[]
+  reviews      Review[]
 }
 
 model Session {
@@ -50,6 +51,7 @@ model Product {
   createdAt   DateTime         @default(now())
   toppings    ProductTopping[]
   orderItems  OrderItem[]
+  reviews     Review[]
 }
 
 model Topping {
@@ -102,4 +104,17 @@ model OrderItemTopping {
   toppingId   String
   topping     Topping   @relation(fields: [toppingId], references: [id])
   priceCents  Int
+}
+model Review {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  orderId   String?
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId])
 }

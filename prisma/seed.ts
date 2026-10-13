@@ -23,7 +23,7 @@ async function main() {
     },
   });
 
-  await prisma.user.upsert({
+  const customer = await prisma.user.upsert({
     where: { email: "cliente@comamoschevere.local" },
     update: {},
     create: {
@@ -58,19 +58,21 @@ async function main() {
 
   // Products
   const products = [
-    { name: "Hamburguesa clásica", category: "hamburger", description: "Carne, lechuga, tomate, queso", priceCents: 18000, toppingNames: ["Queso extra", "Tocineta", "Cebolla caramelizada", "Salsa BBQ", "Jalapeños"] },
-    { name: "Hamburguesa doble", category: "hamburger", description: "Doble carne, doble queso", priceCents: 24000, toppingNames: ["Queso extra", "Tocineta", "Cebolla caramelizada", "Salsa BBQ", "Jalapeños", "Aguacate"] },
-    { name: "Pizza mediana", category: "pizza", description: "Masa artesanal, salsa de tomate", priceCents: 28000, toppingNames: ["Queso extra", "Champiñones", "Cebolla caramelizada", "Jalapeños", "Piña", "Tocineta"] },
-    { name: "Pizza grande", category: "pizza", description: "Para compartir", priceCents: 42000, toppingNames: ["Queso extra", "Champiñones", "Cebolla caramelizada", "Jalapeños", "Piña", "Tocineta", "Aguacate"] },
-    { name: "Choriperro", category: "choripero", description: "Chorizo, papas, salsas", priceCents: 14000, toppingNames: ["Queso extra", "Cebolla caramelizada", "Jalapeños", "Aguacate", "Salsa BBQ"] },
+    { name: "Hamburguesa clásica", category: "hamburger", description: "Carne, lechuga, tomate, queso", priceCents: 18000, imageUrl: "https://picsum.photos/seed/burger-classic/480/320", toppingNames: ["Queso extra", "Tocineta", "Cebolla caramelizada", "Salsa BBQ", "Jalapeños"] },
+    { name: "Hamburguesa doble", category: "hamburger", description: "Doble carne, doble queso", priceCents: 24000, imageUrl: "https://picsum.photos/seed/burger-double/480/320", toppingNames: ["Queso extra", "Tocineta", "Cebolla caramelizada", "Salsa BBQ", "Jalapeños", "Aguacate"] },
+    { name: "Pizza mediana", category: "pizza", description: "Masa artesanal, salsa de tomate", priceCents: 28000, imageUrl: "https://picsum.photos/seed/pizza-m/480/320", toppingNames: ["Queso extra", "Champiñones", "Cebolla caramelizada", "Jalapeños", "Piña", "Tocineta"] },
+    { name: "Pizza grande", category: "pizza", description: "Para compartir", priceCents: 42000, imageUrl: "https://picsum.photos/seed/pizza-l/480/320", toppingNames: ["Queso extra", "Champiñones", "Cebolla caramelizada", "Jalapeños", "Piña", "Tocineta", "Aguacate"] },
+    { name: "Choriperro", category: "choripero", description: "Chorizo, papas, salsas", priceCents: 14000, imageUrl: "https://picsum.photos/seed/choriperro/480/320", toppingNames: ["Queso extra", "Cebolla caramelizada", "Jalapeños", "Aguacate", "Salsa BBQ"] },
   ];
 
+  const createdProducts: any[] = [];
   for (const p of products) {
     const product = await prisma.product.upsert({
       where: { name: p.name },
-      update: { description: p.description, priceCents: p.priceCents, category: p.category },
-      create: { name: p.name, category: p.category, description: p.description, priceCents: p.priceCents },
+      update: { description: p.description, priceCents: p.priceCents, category: p.category, imageUrl: p.imageUrl },
+      create: { name: p.name, category: p.category, description: p.description, priceCents: p.priceCents, imageUrl: p.imageUrl },
     });
+    createdProducts.push(product);
     // link toppings
     for (const tn of p.toppingNames) {
       const topping = byName(tn);
@@ -78,6 +80,23 @@ async function main() {
         where: { productId_toppingId: { productId: product.id, toppingId: topping.id } },
         update: {},
         create: { productId: product.id, toppingId: topping.id },
+      });
+    }
+  }
+
+  if (customer) {
+    const reviewsSeed = [
+      { productName: "Hamburguesa clásica", rating: 5, comment: "Excelente, muy jugosa." },
+      { productName: "Pizza mediana", rating: 4, comment: "Muy buena masa y toppings." },
+      { productName: "Choriperro", rating: 5, comment: "El mejor choriperro de la ciudad." },
+    ];
+    for (const r of reviewsSeed) {
+      const prod = createdProducts.find((pr) => pr.name === r.productName);
+      if (!prod) continue;
+      await prisma.review.upsert({
+        where: { userId_productId: { userId: customer.id, productId: prod.id } },
+        update: {},
+        create: { userId: customer.id, productId: prod.id, rating: r.rating, comment: r.comment },
       });
     }
   }

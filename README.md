@@ -52,6 +52,8 @@ Para mayor escala en producción, cambia el `provider` de Prisma a `postgresql` 
 - Checkout: domicilio o recogida en tienda, dirección
 - API para crear pedidos y consultarlos
 - Panel admin: pedidos entrantes, detalle productos/toppings, aprobar/notificar y avanzar estados
+- Imágenes por producto (URL) y sistema de reseñas/calificaciones
+- Notificaciones del navegador al aprobar un pedido (pide permiso y muestra alerta)
 - Polling para que el cliente vea la confirmación
 - Seed inicial con datos demo
 ```
