@@ -22,7 +22,7 @@ const categoryIcon: Record<string, string> = {
 };
 
 export default function MenuPage() {
-  const { addItem } = useCart();
+  const { addItem, showToast } = useCart();
   const [products, setProducts] = useState<Product[]>([]);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [me, setMe] = useState<any>(null);
@@ -31,7 +31,7 @@ export default function MenuPage() {
   const [variantSel, setVariantSel] = useState<Record<string, string>>({});
   const [activeCategory, setActiveCategory] = useState<string>("");
   const [comboSel, setComboSel] = useState<Record<string, boolean>>({});
-  const [toast, setToast] = useState<string | null>(null);
+
   const [ratingSel, setRatingSel] = useState<Record<string, number>>({});
   const [commentSel, setCommentSel] = useState<Record<string, string>>({});
   const [sending, setSending] = useState<Record<string, boolean>>({});
@@ -84,8 +84,7 @@ export default function MenuPage() {
       toppingNames,
     };
     addItem(item);
-    setToast(`${displayName} agregado al carrito ✅`);
-    setTimeout(() => setToast(null), 2500);
+    showToast(`${qty[p.id] || 1} x ${displayName} agregado al carrito ✅`);
   }
 
   async function submitReview(productId: string) {
@@ -268,12 +267,6 @@ export default function MenuPage() {
           </div>
         </section>
       ))}
-    {toast && (
-      <div className="fixed bottom-6 right-6 z-50 bg-black text-white px-4 py-3 rounded-xl shadow-lg border border-yellow-400">
-        {toast}
-        <a href="/cart" className="ml-3 text-yellow-400 font-semibold">Ver carrito</a>
-      </div>
-    )}
     </div>
   );
 }
