@@ -15,6 +15,7 @@ RUN if [ -d /app/public ]; then cp -r /app/public /app/.next/standalone/public; 
 
 ENV NODE_ENV=production
 ENV PORT=3000
+ENV HOSTNAME=0.0.0.0
 EXPOSE 3000
 
 CMD ["/bin/sh", "/app/scripts/start.sh"]
