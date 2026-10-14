@@ -1,5 +1,7 @@
 # Comamos Chévere 🍔🍕
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/santiagoguz10/comamos-chevere)
+
 App web (responsive) para restaurante "Comamos Chévere" con dos módulos:
 - **Cliente**: registro/login, menú con toppings, carrito, dirección de entrega, tipo de entrega, envío de pedido, seguimiento/confirmación.
 - **Administrador**: visualización de pedidos entrantes con productos y toppings, aprobación/notificación al cliente y control de estados.
