@@ -60,7 +60,7 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
           <h1 className="text-2xl font-bold">Pedido #{order.id.slice(0, 8)}</h1>
           <span className={`px-3 py-1 rounded-full text-xs font-semibold ${color[order.status] || ""}`}>{order.status}</span>
         </div>
-        <p className="text-sm text-stone-500 mt-1">{new Date(order.createdAt).toLocaleString()}</p>
+        <p className="text-sm text-stone-500 mt-1">{new Date(order.createdAt).toLocaleString('es-CO')}</p>
         <p className="mt-1">{order.deliveryType === "delivery" ? "Domicilio" : "Recoger en tienda"}</p>
         {order.address && <p className="text-sm text-stone-600">{order.address.street}, {order.address.city}</p>}
         {order.notes && <p className="text-sm italic text-stone-500">Notas: {order.notes}</p>}

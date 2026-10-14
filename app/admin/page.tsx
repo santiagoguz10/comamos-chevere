@@ -67,7 +67,7 @@ export default function AdminPage() {
           <div className="flex justify-between items-start">
             <div>
               <p className="font-semibold">#{o.id.slice(0, 8)} · {o.user?.email}</p>
-              <p className="text-sm text-stone-500">{new Date(o.createdAt).toLocaleString()} · {o.deliveryType === "delivery" ? "Domicilio" : "Recogida"}</p>
+              <p className="text-sm text-stone-500">{new Date(o.createdAt).toLocaleString('es-CO')} · {o.deliveryType === "delivery" ? "Domicilio" : "Recogida"}</p>
               {o.address && <p className="text-sm">{o.address.street}, {o.address.city}</p>}
             </div>
             <span className={`px-3 py-1 rounded-full text-xs font-semibold ${color[o.status] || ""}`}>{o.status}</span>

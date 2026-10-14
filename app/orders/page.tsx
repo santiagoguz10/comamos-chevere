@@ -42,7 +42,7 @@ export default function OrdersPage() {
           <div className="flex justify-between items-center">
             <div>
               <p className="font-semibold">Pedido #{o.id.slice(0, 8)}</p>
-              <p className="text-sm text-stone-500">{new Date(o.createdAt).toLocaleString()} · {o.deliveryType === "delivery" ? "Domicilio" : "Recogida"}</p>
+              <p className="text-sm text-stone-500">{new Date(o.createdAt).toLocaleString('es-CO')} · {o.deliveryType === "delivery" ? "Domicilio" : "Recogida"}</p>
             </div>
             <span className={`px-3 py-1 rounded-full text-xs font-semibold ${color[o.status] || ""}`}>{o.status}</span>
           </div>

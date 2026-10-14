@@ -9,6 +9,18 @@ type Variant = { id: string; name: string; priceCents: number };
 type Product = { id: string; name: string; category: string; description?: string; priceCents: number; imageUrl?: string; toppings: ProductTopping[]; variants: Variant[] };
 type Review = { id: string; productId: string; rating: number; comment?: string | null; createdAt: string; user: { name?: string | null; email: string } };
 
+const categoryLabel: Record<string, string> = {
+  pizza: "Pizzas",
+  hamburger: "Hamburguesas",
+  hotdog: "Perros calientes",
+  chorizo: "Chorizos",
+  papas: "Papitas",
+  burrito: "Burritos",
+  mazorcada: "Mazorcadas",
+  "para picar": "Para picar",
+  "fines de semana": "Fines de semana",
+};
+
 const categoryIcon: Record<string, string> = {
   pizza: "🍕",
   hamburger: "🍔",
@@ -130,7 +142,7 @@ export default function MenuPage() {
             className={`btn ${currentCategory === cat ? "bg-yellow-400 text-black" : "bg-white"}`}
             onClick={() => setActiveCategory(cat)}
           >
-            {categoryIcon[cat] || "🍽️"} {cat}
+            {categoryIcon[cat] || "🍽️"} {categoryLabel[cat] || cat}
           </button>
         ))}
       </div>
@@ -138,7 +150,7 @@ export default function MenuPage() {
       {orderedCategories.filter((c) => c === currentCategory).map((cat) => (
         <section key={cat}>
           <h2 className="text-xl font-bold text-red-500 mb-3 capitalize flex items-center gap-2">
-            <span className="w-2 h-6 bg-yellow-400 rounded-full inline-block"></span>{cat}
+            <span className="w-2 h-6 bg-yellow-400 rounded-full inline-block"></span>{categoryLabel[cat] || cat}
           </h2>
           <div className="grid md:grid-cols-2 gap-4">
             {products.filter((p) => p.category === cat).map((p) => {
