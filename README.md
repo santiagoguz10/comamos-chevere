@@ -46,6 +46,8 @@ Para mayor escala en producción, cambia el `provider` de Prisma a `postgresql` 
 
 ## Funcionalidades incluidas
 - Login/registro por roles (cliente/admin)
+- Menú segmentado por categorías (pizzas, hamburguesas, perros, etc.)
+- Precios, ingredientes y descripciones según menú original Home Pizza D'Isa
 - Menú con hamburguesas, pizzas, choriperros
 - Toppings por producto con precio extra
 - Carrito con cantidades y total

@@ -17,6 +17,7 @@ export default function MenuPage() {
   const [qty, setQty] = useState<Record<string, number>>({});
   const [sel, setSel] = useState<Record<string, string[]>>({});
   const [variantSel, setVariantSel] = useState<Record<string, string>>({});
+  const [activeCategory, setActiveCategory] = useState<string>("");
   const [ratingSel, setRatingSel] = useState<Record<string, number>>({});
   const [commentSel, setCommentSel] = useState<Record<string, string>>({});
   const [sending, setSending] = useState<Record<string, boolean>>({});
@@ -95,14 +96,30 @@ export default function MenuPage() {
     return (rs.reduce((a, r) => a + r.rating, 0) / rs.length).toFixed(1);
   }
 
+  const categoryOrder = ["pizza", "hamburger", "hotdog", "chorizo", "papas", "burrito", "mazorcada", "para picar", "fines de semana"];
   const categories = [...new Set(products.map((p) => p.category))];
+  const orderedCategories = categoryOrder.filter((c) => categories.includes(c)).concat(categories.filter((c) => !categoryOrder.includes(c)));
+  const currentCategory = activeCategory || orderedCategories[0] || "";
+
 
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold text-black flex items-center gap-2">
         <span className="w-2 h-7 bg-yellow-400 rounded-full inline-block"></span>Menú
       </h1>
-      {categories.map((cat) => (
+      <div className="flex gap-2 flex-wrap mb-4">
+        {orderedCategories.map((cat) => (
+          <button
+            key={cat}
+            className={`btn ${currentCategory === cat ? "bg-yellow-400 text-black" : "bg-white"}`}
+            onClick={() => setActiveCategory(cat)}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
+      {orderedCategories.filter((c) => c === currentCategory).map((cat) => (
         <section key={cat}>
           <h2 className="text-xl font-bold text-red-500 mb-3 capitalize flex items-center gap-2">
             <span className="w-2 h-6 bg-yellow-400 rounded-full inline-block"></span>{cat}
