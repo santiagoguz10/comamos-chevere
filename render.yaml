@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: comamos-chevere
+    name: comamoschevere
     env: docker
     plan: free
     healthCheckPath: /
