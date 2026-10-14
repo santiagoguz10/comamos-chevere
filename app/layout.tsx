@@ -3,6 +3,7 @@ import "./globals.css";
 import Link from "next/link";
 import { CartProvider } from "@/components/CartProvider";
 import PushSubscriber from "@/components/PushSubscriber";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export const metadata: Metadata = {
   title: "Comamos Chévere",
@@ -15,6 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <link rel="icon" href="/favicon.png" />
         <link rel="manifest" href="/manifest.json" />
+        <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('theme');var d=t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.documentElement.classList.add('dark');}catch(e){}})();` }} />
       </head>
       <body>
         <CartProvider>
@@ -29,6 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <Link href="/cart" className="hover:text-yellow-400 transition">Carrito</Link>
                 <Link href="/orders" className="hover:text-yellow-400 transition">Mis pedidos</Link>
                 <Link href="/admin" className="bg-red-500 hover:bg-red-600 px-3 py-1 rounded-lg text-white transition">Admin</Link>
+                <ThemeToggle />
               </div>
             </nav>
           </header>
