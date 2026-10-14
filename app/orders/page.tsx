@@ -46,7 +46,7 @@ export default function OrdersPage() {
             </div>
             <span className={`px-3 py-1 rounded-full text-xs font-semibold ${color[o.status] || ""}`}>{o.status}</span>
           </div>
-          <p className="mt-2 font-bold">${(o.totalCents / 100).toFixed(2)}</p>
+          <p className="mt-2 font-bold">${(o.totalCents).toLocaleString('es-CO')}</p>
         </Link>
       ))}
     </div>

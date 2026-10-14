@@ -125,7 +125,7 @@ export default function AdminSettingsPage() {
             <div key={t.id} className="flex items-center justify-between border-b border-neutral-100 py-2">
               <div>
                 <p className="font-semibold">{t.name}</p>
-                <p className="text-xs text-neutral-500">${(t.priceCents / 100).toFixed(2)}</p>
+                <p className="text-xs text-neutral-500">${(t.priceCents).toLocaleString('es-CO')}</p>
               </div>
               <label className="flex items-center gap-2 cursor-pointer">
                 <input type="checkbox" checked={t.enabled} onChange={(e) => toggleTopping(t.id, e.target.checked)} />

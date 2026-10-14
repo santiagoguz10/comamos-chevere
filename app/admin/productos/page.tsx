@@ -127,7 +127,7 @@ export default function AdminProductsPage() {
             <div className="flex-1">
               <p className="font-bold">{p.name} <span className="text-xs text-neutral-500">({p.category})</span> {!p.enabled && <span className="text-red-600 text-xs">(Deshabilitado)</span>}</p>
               <p className="text-sm text-neutral-500">{p.description}</p>
-              <p className="text-sm font-semibold">${(p.priceCents / 100).toFixed(2)} · {p.toppings.map((t) => t.topping.name).join(", ") || "Sin toppings"}</p>
+              <p className="text-sm font-semibold">${(p.priceCents).toLocaleString('es-CO')} · {p.toppings.map((t) => t.topping.name).join(", ") || "Sin toppings"}</p>
             </div>
             <button
               className={p.enabled ? "btn-secondary text-sm" : "btn-primary text-sm"}

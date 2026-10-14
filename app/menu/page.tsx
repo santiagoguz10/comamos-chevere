@@ -9,6 +9,18 @@ type Variant = { id: string; name: string; priceCents: number };
 type Product = { id: string; name: string; category: string; description?: string; priceCents: number; imageUrl?: string; toppings: ProductTopping[]; variants: Variant[] };
 type Review = { id: string; productId: string; rating: number; comment?: string | null; createdAt: string; user: { name?: string | null; email: string } };
 
+const categoryIcon: Record<string, string> = {
+  pizza: "🍕",
+  hamburger: "🍔",
+  hotdog: "🌭",
+  chorizo: "🌶️",
+  papas: "🍟",
+  burrito: "🌯",
+  mazorcada: "🌽",
+  "para picar": "🥟",
+  "fines de semana": "🍗",
+};
+
 export default function MenuPage() {
   const { addItem } = useCart();
   const [products, setProducts] = useState<Product[]>([]);
@@ -18,6 +30,7 @@ export default function MenuPage() {
   const [sel, setSel] = useState<Record<string, string[]>>({});
   const [variantSel, setVariantSel] = useState<Record<string, string>>({});
   const [activeCategory, setActiveCategory] = useState<string>("");
+  const [comboSel, setComboSel] = useState<Record<string, boolean>>({});
   const [ratingSel, setRatingSel] = useState<Record<string, number>>({});
   const [commentSel, setCommentSel] = useState<Record<string, string>>({});
   const [sending, setSending] = useState<Record<string, boolean>>({});
@@ -50,7 +63,8 @@ export default function MenuPage() {
   function addToCart(p: Product) {
     const variant = p.variants && p.variants.length ? (p.variants.find((v) => v.id === variantSel[p.id]) || p.variants[0]) : null;
     const unitPrice = variant ? variant.priceCents : p.priceCents;
-    const displayName = variant ? `${p.name} (${variant.name})` : p.name;
+    const combo = comboSel[p.id] ? 4000 : 0;
+    const displayName = comboSel[p.id] ? `${variant ? `${p.name} (${variant.name})` : p.name} + Combo` : (variant ? `${p.name} (${variant.name})` : p.name);
     const toppingIds = sel[p.id] || [];
     const toppingNames = toppingIds
       .map((id) => p.toppings.find((t) => t.topping.id === id)?.topping.name)
@@ -62,7 +76,7 @@ export default function MenuPage() {
     const item: CartItem = {
       productId: p.id,
       name: displayName,
-      priceCents: unitPrice,
+      priceCents: unitPrice + combo,
       toppingPriceCents,
       quantity: qty[p.id] || 1,
       toppingIds,
@@ -114,7 +128,7 @@ export default function MenuPage() {
             className={`btn ${currentCategory === cat ? "bg-yellow-400 text-black" : "bg-white"}`}
             onClick={() => setActiveCategory(cat)}
           >
-            {cat}
+            {categoryIcon[cat] || "🍽️"} {cat}
           </button>
         ))}
       </div>
@@ -146,12 +160,12 @@ export default function MenuPage() {
                           onChange={(e) => setVariantSel({ ...variantSel, [p.id]: e.target.value })}
                         >
                           {p.variants.map((v) => (
-                            <option key={v.id} value={v.id}>{v.name} - ${(v.priceCents / 100).toFixed(2)}</option>
+                            <option key={v.id} value={v.id}>{v.name} - ${(v.priceCents).toLocaleString('es-CO')}</option>
                           ))}
                         </select>
                       )}
                       <span className="font-bold bg-black text-yellow-400 px-2 py-1 rounded-lg">
-                        ${(((p.variants && p.variants.length ? (p.variants.find((v) => v.id === variantSel[p.id]) || p.variants[0]).priceCents : p.priceCents) / 100).toFixed(2))}
+                        ${(((p.variants && p.variants.length ? (p.variants.find((v) => v.id === variantSel[p.id]) || p.variants[0]).priceCents : p.priceCents)).toLocaleString('es-CO'))}
                       </span>
                     </div>
 
@@ -174,11 +188,21 @@ export default function MenuPage() {
                                 onChange={() => toggle(p.id, pt.topping.id)}
                               />
                               <span>{pt.topping.name}</span>
-                              <span className="text-neutral-500">+${(pt.topping.priceCents / 100).toFixed(2)}</span>
+                              <span className="text-neutral-500">+${(pt.topping.priceCents).toLocaleString('es-CO')}</span>
                             </label>
                           ))}
                         </div>
                       </div>
+                    )}
+                    {(p.category === "burger" || p.category === "hotdog" || p.category === "chorizo") && (
+                      <label className="flex items-center gap-2 text-sm bg-yellow-50 border border-yellow-200 rounded-lg px-2 py-1 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={comboSel[p.id] || false}
+                          onChange={(e) => setComboSel({ ...comboSel, [p.id]: e.target.checked })}
+                        />
+                        Combo papas + gaseosa (+$4.000)
+                      </label>
                     )}
                     <div className="flex gap-2 items-center mt-auto">
                       <input

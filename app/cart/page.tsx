@@ -56,7 +56,7 @@ export default function CartPage() {
               <p className="text-sm text-stone-500">{it.toppingNames.join(", ") || "Sin toppings"}</p>
             </div>
             <div className="flex items-center gap-3">
-              <span>${(((it.priceCents + it.toppingPriceCents) * it.quantity) / 100).toFixed(2)}</span>
+              <span>${(((it.priceCents + it.toppingPriceCents) * it.quantity)).toLocaleString('es-CO')}</span>
               <input type="number" min={1} className="input w-16" value={it.quantity} onChange={(e) => updateQty(idx, Number(e.target.value))} />
               <button className="btn-danger" onClick={() => removeItem(idx)}>X</button>
             </div>
@@ -64,7 +64,7 @@ export default function CartPage() {
         ))}
       </div>
       <div className="card p-4 space-y-3">
-        <p className="font-bold">Total: ${(totalCents / 100).toFixed(2)}</p>
+        <p className="font-bold">Total: ${(totalCents).toLocaleString('es-CO')}</p>
         <div className="flex gap-3">
           <label className="flex items-center gap-2">
             <input type="radio" checked={deliveryType === "delivery"} onChange={() => setDeliveryType("delivery")} /> A domicilio

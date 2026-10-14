@@ -82,7 +82,7 @@ export default function AdminPage() {
               </div>
             ))}
           </div>
-          <p className="font-bold">${(o.totalCents / 100).toFixed(2)}</p>
+          <p className="font-bold">${(o.totalCents).toLocaleString('es-CO')}</p>
           {o.notes && <p className="text-sm italic">Notas: {o.notes}</p>}
           <div className="flex gap-2 flex-wrap">
             {o.status === "pending" && <button className="btn-primary" onClick={() => updateStatus(o.id, "approved")}>Aprobar y notificar</button>}

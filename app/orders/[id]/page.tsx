@@ -71,16 +71,16 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
           <div key={it.id} className="border-b border-stone-100 py-2">
             <div className="flex justify-between">
               <span>{it.product.name} x{it.quantity}</span>
-              <span>${((it.unitPrice * it.quantity) / 100).toFixed(2)}</span>
+              <span>${((it.unitPrice * it.quantity)).toLocaleString('es-CO')}</span>
             </div>
             {it.toppings?.length > 0 && (
               <p className="text-sm text-stone-500">
-                Toppings: {it.toppings.map((t: any) => `${t.topping.name} (+$${(t.priceCents / 100).toFixed(2)})`).join(", ")}
+                Toppings: {it.toppings.map((t: any) => `${t.topping.name} (+$${(t.priceCents).toLocaleString('es-CO')})`).join(", ")}
               </p>
             )}
           </div>
         ))}
-        <p className="font-bold mt-3">Total: ${(order.totalCents / 100).toFixed(2)}</p>
+        <p className="font-bold mt-3">Total: ${(order.totalCents).toLocaleString('es-CO')}</p>
       </div>
       <Link href="/orders" className="text-red-500 font-semibold">← Volver</Link>
     </div>
