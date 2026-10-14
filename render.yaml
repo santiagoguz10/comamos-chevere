@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: comamos-chevere
+    env: docker
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: comamos-chevere-db
+          property: connectionString
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: NODE_ENV
+        value: production
+      - key: PRISMA_HIDE_UPDATE_MESSAGE
+        value: "1"
+      - key: VAPID_PUBLIC_KEY
+        value: BPZMqPlu6_iTixfS8r5355bo79_RbXrmRLt8a3KFLW8gFVRUOWjVlW4_4gp8HifKS6egl1CexwrZpF-nkTRmgRc
+      - key: VAPID_PRIVATE_KEY
+        value: G0lHu_2xrxH78fhlB7bOxHf72tvFtkEnWiieSL5mcIc
+      - key: VAPID_SUBJECT
+        value: mailto:admin@comamoschevere.local
+
+databases:
+  - name: comamos-chevere-db
+    databaseName: comamos
+    user: comamos
+    plan: free
