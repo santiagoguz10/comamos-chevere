@@ -17,4 +17,4 @@ ENV NODE_ENV=production
 ENV PORT=3000
 EXPOSE 3000
 
-CMD ["sh", "-c", "npx prisma db push --accept-data-loss && npx tsx prisma/seed.ts && npm run start"]
+CMD ["/bin/sh", "/app/scripts/start.sh"]
